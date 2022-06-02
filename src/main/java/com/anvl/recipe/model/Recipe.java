@@ -16,6 +16,8 @@ public class Recipe {
     private String source;
     private String url;
     private String directions;
+    @Enumerated(value = EnumType.STRING)
+    private Difficulty difficulty;
     @Lob
     private byte[] image;
 
@@ -110,5 +112,13 @@ public class Recipe {
 
     public void setNote(Notes note) {
         this.note = note;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
 }
