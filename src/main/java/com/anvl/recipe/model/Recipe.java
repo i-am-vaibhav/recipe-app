@@ -21,7 +21,21 @@ public class Recipe {
     @Lob
     private byte[] image;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "recipe")
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
+    @ManyToMany
+    @JoinTable(name = "recipe_category",
+            inverseJoinColumns = @JoinColumn(name = "category_id"),
+            joinColumns = @JoinColumn(name = "recipe_id"))
+    private Set<Category> categories;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
     private Set<Ingredient> ingredients;
 
     public Set<Ingredient> getIngredients() {
@@ -50,6 +64,7 @@ public class Recipe {
     public void setPrepTime(Integer prepTime) {
         this.prepTime = prepTime;
     }
+
     public long getId() {
         return id;
     }

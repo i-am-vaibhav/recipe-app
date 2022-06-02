@@ -2,6 +2,7 @@ package com.anvl.recipe.model;
 
 import javax.persistence.*;
 
+@Entity
 public class Notes {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
