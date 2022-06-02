@@ -1,6 +1,7 @@
 package com.anvl.recipe.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -15,6 +16,7 @@ public class Recipe {
     private Integer servings;
     private String source;
     private String url;
+    @Column(length = 2000)
     private String directions;
     @Enumerated(value = EnumType.STRING)
     private Difficulty difficulty;
@@ -135,5 +137,11 @@ public class Recipe {
 
     public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
+    }
+
+    public void addIngredient(Ingredient ingredient) {
+        if (ingredients == null)
+            ingredients = new HashSet<>();
+        ingredients.add(ingredient);
     }
 }
