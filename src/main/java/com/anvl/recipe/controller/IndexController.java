@@ -1,14 +1,23 @@
 package com.anvl.recipe.controller;
 
+import com.anvl.recipe.service.RecipeService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class IndexController {
 
+    private final RecipeService recipeService;
+
+    public IndexController(RecipeService recipeService) {
+        this.recipeService = recipeService;
+    }
+
     @GetMapping({"/","","index","index.html"})
-    public String indexPage(){
+    public String indexPage(Model model){
         System.out.println("index page");
+        model.addAttribute("recipes",recipeService.getAllRecipes());
         return "index";
     }
 

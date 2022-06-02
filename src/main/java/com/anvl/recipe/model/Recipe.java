@@ -128,6 +128,8 @@ public class Recipe {
     }
 
     public void setNote(Notes note) {
+        if(note.getRecipe()==null)
+            note.setRecipe(this);
         this.note = note;
     }
 
@@ -142,6 +144,7 @@ public class Recipe {
     public void addIngredient(Ingredient ingredient) {
         if (ingredients == null)
             ingredients = new HashSet<>();
+        ingredient.setRecipe(this);
         ingredients.add(ingredient);
     }
 }
