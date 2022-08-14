@@ -9,7 +9,7 @@ public class Recipe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     private String description;
     private Integer prepTime;
     private Integer cookTime;
@@ -67,11 +67,11 @@ public class Recipe {
         this.prepTime = prepTime;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -128,7 +128,7 @@ public class Recipe {
     }
 
     public void setNote(Notes note) {
-        if(note.getRecipe()==null)
+        if(note!=null&&note.getRecipe()==null)
             note.setRecipe(this);
         this.note = note;
     }

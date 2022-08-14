@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipe Home</title>
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}">
+
+</head>
+<body>
+<div class="container-fluid mt-5">
+    <div class="row">
+        <div class="col-8 offset-2">
+            <div class="card text-bg-primary">
+                <div class="card-header bg-primary"><h1 th:text="${recipe.description}">Recipe Description !</h1></div>
+                <div class="card-body text-bg-light">
+                    <div class="table-responsive" th:if="${recipe!=null}">
+                        <table class="table table-hover">
+                            <tr>
+                                <td>Category</td>
+
+                                <td>
+                                    <ul>
+                                        <li th:each="category : ${recipe.categories}"
+                                            th:text="${category.description}"></li>
+                                    </ul>
+
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>Prep Time</td>
+
+                                <td>
+                                    <span th:text="${recipe.prepTime}"></span>min
+                                </td>
+                                <td>Difficulty</td>
+
+                                <td>
+                                    <span th:text="${recipe.difficulty}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Cook Time</td>
+
+                                <td>
+                                    <span th:text="${recipe.cookTime}"></span>min
+                                </td>
+                                <td>Servings</td>
+
+                                <td>
+                                    <span th:text="${recipe.servings}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Source</td>
+
+                                <td>
+                                    <span th:text="${recipe.source}"></span>
+                                </td>
+                                <td>URL</td>
+
+                                <td>
+                                    <span th:text="${recipe.url}"></span>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="card text-bg-primary">
+                <div class="card-header bg-primary"><h2>Ingredients !</h2></div>
+                <div class="card-body text-bg-light">
+                    <div class="table-responsive" th:if="${recipe!=null}">
+                        <table class="table table-hover">
+                            <ul>
+                                <li th:each="ing : ${recipe.ingredients}">
+                                    <span th:text="${ing.amount}"></span> <span
+                                        th:text="${ing.unitOfMeasure.uom}"></span> of <span
+                                        th:text="${ing.description}"></span></li>
+                            </ul>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <div class="card text-bg-primary">
+                <div class="card-header bg-primary"><h2>Directions !</h2></div>
+                <div class="card-body text-bg-light">
+                    <div class="table-responsive" th:if="${recipe!=null}">
+                        <table class="table table-hover">
+                            <tr th:text="${recipe.directions}"></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <div class="card text-bg-primary">
+                <div class="card-header bg-primary"><h2>Notes !</h2></div>
+                <div class="card-body text-bg-light">
+                    <div class="table-responsive" th:if="${recipe!=null}">
+                        <table class="table table-hover">
+                            <tr th:text="${recipe.note.recipeNotes}"></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+        </div>
+    </div>
+</div>
+</body>
+</html>

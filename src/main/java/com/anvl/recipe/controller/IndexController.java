@@ -21,7 +21,6 @@ public class IndexController {
         return "index";
     }
 
-
     /*
     * * * Request methods * *
     *
