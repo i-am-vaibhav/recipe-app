@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <title>Recipe Home</title>
 
+    <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}">
+
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
 
 </head>
 <body>
@@ -12,21 +17,33 @@
     <div class="row">
         <div class="col-6 offset-3">
             <div class="card text-bg-primary">
-                <div class="card-header bg-primary"><h1>My Recipe !</h1></div>
+                <div class="card-header bg-primary">
+                    <div class="d-flex">
+                    <span class="pull-left col-10">
+                    <h1>My Recipe !</h1>
+                    </span>
+                        <span class="pull-right col-2">
+                    <a class="btn btn-success " th:href="@{/recipes}">Create
+                    </a>
+                    </span>
+                    </div>
+                </div>
                 <div class="card-body text-bg-light">
                     <div class="table-responsive" th:if="${not #lists.isEmpty(recipes)}">
                         <table class="table table-hover">
                             <thead class="table-light">
                             <th>Id</th>
                             <th>Description</th>
-                            <th>View</th>
+                            <th class="text-center">View</th>
+                            <th class="text-center">Update</th>
                             </thead>
                             <tbody>
                             <tr th:each="recipe : ${recipes}">
                                 <td th:text="${recipe.id}"></td>
 
                                 <td th:text="${recipe.description}"></td>
-                                <td><a th:href="@{'/recipe/show/'+${recipe.id}}">View</a></td>
+                                <td class="text-center"><a class="btn" th:href="@{'/recipes/'+${recipe.id}+'/show'}">View</a></td>
+                                <td class="text-center"><a class="btn" th:href="@{'/recipes/'+${recipe.id}+'/update'}">Update</a></td>
                             </tr>
 
                             </tbody>

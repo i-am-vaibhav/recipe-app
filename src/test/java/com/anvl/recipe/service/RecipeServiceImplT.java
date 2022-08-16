@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,11 +40,29 @@ class RecipeServiceImplT {
         List<Recipe> recipes = recipeRepository.findAll();
         Recipe recipe = recipes.get(0);
         RecipeCommand command = recipeToCommandConverter.convert(recipe);
+        command.setId(null);
+        command.getNote().setId(null);
+
+        command.setIngredients(command.getIngredients().stream().map(i->{i.setId(null);return i;}).collect(Collectors.toSet()));
+        RecipeCommand  savedRecipe = recipeService.save(command);
+
+        assertNotNull(savedRecipe.getId());
+        assertEquals(recipe.getCategories().size(),command.getCategories().size());
+        assertEquals(recipe.getIngredients().size(),command.getIngredients().size());
+
+    }
+
+    @Test
+    @Transactional
+    void update() {
+        List<Recipe> recipes = recipeRepository.findAll();
+        Recipe recipe = recipes.get(0);
+        RecipeCommand command = recipeToCommandConverter.convert(recipe);
 
         command.setDescription("Superman");
         RecipeCommand  savedRecipe = recipeService.save(command);
 
-        assertEquals(savedRecipe.getId(),command.getId());
+        assertNotNull(savedRecipe.getId());
         assertEquals("Superman",command.getDescription());
         assertEquals(recipe.getCategories().size(),command.getCategories().size());
         assertEquals(recipe.getIngredients().size(),command.getIngredients().size());

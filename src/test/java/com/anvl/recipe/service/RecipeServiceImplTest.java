@@ -1,5 +1,6 @@
 package com.anvl.recipe.service;
 
+import com.anvl.recipe.commands.RecipeCommand;
 import com.anvl.recipe.converters.CommandToRecipeConverter;
 import com.anvl.recipe.converters.RecipeToCommandConverter;
 import com.anvl.recipe.model.Recipe;
@@ -12,7 +13,8 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 
 class RecipeServiceImplTest {
@@ -31,7 +33,7 @@ class RecipeServiceImplTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        recipeService=new RecipeServiceImpl(recipeRepository, commandToRecipeConverter, recipeToCommandConverter);
+        recipeService = new RecipeServiceImpl(recipeRepository, commandToRecipeConverter, recipeToCommandConverter);
     }
 
     @Test
@@ -45,8 +47,8 @@ class RecipeServiceImplTest {
         Mockito.when(recipeRepository.findAll()).thenReturn(recipes);
 
         Set<Recipe> realRes = recipeService.getAllRecipes();
-        assertEquals(recipeSet,realRes);
-        Mockito.verify(recipeRepository,Mockito.times(1)).findAll();
+        assertEquals(recipeSet, realRes);
+        Mockito.verify(recipeRepository, Mockito.times(1)).findAll();
     }
 
     @Test
@@ -57,7 +59,24 @@ class RecipeServiceImplTest {
 
         Recipe realRecipe = recipeService.findById(1l);
         assertNotNull(realRecipe);
-        Mockito.verify(recipeRepository,Mockito.times(1)).findById(any());
+        Mockito.verify(recipeRepository, Mockito.times(1)).findById(any());
+
+    }
+
+    @Test
+    void getRecipeCommandByIdTest() {
+        Recipe recipe = new Recipe();
+        recipe.setId(1l);
+        Mockito.when(recipeRepository.findById(1l)).thenReturn(Optional.of(recipe));
+        RecipeCommand command = new RecipeCommand();
+        command.setId(1l);
+        Mockito.when(recipeToCommandConverter.convert(any())).thenReturn(command);
+
+        RecipeCommand realRecipe = recipeService.findCommandById(1l);
+        assertNotNull(realRecipe);
+        Mockito.verify(recipeRepository, Mockito.times(1)).findById(any());
+
+        Mockito.verify(recipeToCommandConverter, Mockito.times(1)).convert(any());
 
     }
 }

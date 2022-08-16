@@ -1,5 +1,6 @@
 package com.anvl.recipe.controller;
 
+import com.anvl.recipe.commands.RecipeCommand;
 import com.anvl.recipe.model.Recipe;
 import com.anvl.recipe.service.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,12 +41,30 @@ class RecipeControllerTest {
     }
 
     @Test
-    void showRecipe() throws Exception {
+    void createPage() throws Exception {
             MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
 
-            mockMvc.perform(MockMvcRequestBuilders.get("/recipe/show/"+1))
+            mockMvc.perform(MockMvcRequestBuilders.get("/recipes/"))
                     .andExpect(MockMvcResultMatchers.status().is(200))
-                    .andExpect(MockMvcResultMatchers.view().name("recipe/show"));
+                    .andExpect(MockMvcResultMatchers.view().name("recipe/form"));
+    }
+
+    @Test
+    void updatePage() throws Exception {
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipes/"+1+"/update/"))
+                .andExpect(MockMvcResultMatchers.status().is(200))
+                .andExpect(MockMvcResultMatchers.view().name("recipe/form"));
+    }
+
+    @Test
+    void showRecipe() throws Exception {
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipes/"+1+"/show/"))
+                .andExpect(MockMvcResultMatchers.status().is(200))
+                .andExpect(MockMvcResultMatchers.view().name("recipe/show"));
     }
 
     @Test
@@ -61,6 +80,38 @@ class RecipeControllerTest {
         Mockito.verify(recipeService,Mockito.times(1)).findById(any());
         Mockito.verify(model,Mockito.times(1)).addAttribute(Mockito.eq("recipe"),setArgumentCaptor.capture());
         Recipe recipeCaptured = setArgumentCaptor.getValue();
+        assertNotNull(recipeCaptured);
+        assertEquals(1l,recipeCaptured.getId());
+    }
+
+    @Test
+    void createPageJunit() throws Exception {
+        RecipeCommand recipe =new RecipeCommand();
+
+        ArgumentCaptor<RecipeCommand> setArgumentCaptor = ArgumentCaptor.forClass(RecipeCommand.class);
+
+        String str = recipeController.createPage(model);
+        assertEquals(str,"recipe/form");
+        Mockito.verifyNoInteractions(recipeService);
+        Mockito.verify(model,Mockito.times(1)).addAttribute(Mockito.eq("recipe"),setArgumentCaptor.capture());
+        RecipeCommand recipeCaptured = setArgumentCaptor.getValue();
+        assertNotNull(recipeCaptured);
+        assertNull(recipeCaptured.getId());
+    }
+
+    @Test
+    void updatePageJunit() throws Exception {
+        RecipeCommand recipe =new RecipeCommand();
+        recipe.setId(1l);
+        Mockito.when(recipeService.findCommandById(1l)).thenReturn(recipe);
+
+        ArgumentCaptor<RecipeCommand> setArgumentCaptor = ArgumentCaptor.forClass(RecipeCommand.class);
+
+        String str = recipeController.updatePage(model,1l);
+        assertEquals(str,"recipe/form");
+        Mockito.verify(recipeService,Mockito.times(1)).findCommandById(any());
+        Mockito.verify(model,Mockito.times(1)).addAttribute(Mockito.eq("recipe"),setArgumentCaptor.capture());
+        RecipeCommand recipeCaptured = setArgumentCaptor.getValue();
         assertNotNull(recipeCaptured);
         assertEquals(1l,recipeCaptured.getId());
     }
