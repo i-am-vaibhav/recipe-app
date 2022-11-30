@@ -3,11 +3,13 @@ package com.anvl.recipe.converters;
 import com.anvl.recipe.commands.CategoryCommand;
 import com.anvl.recipe.commands.IngredientCommand;
 import com.anvl.recipe.commands.RecipeCommand;
+import com.anvl.recipe.model.Difficulty;
 import com.anvl.recipe.model.Recipe;
 import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -43,7 +45,8 @@ public class CommandToRecipeConverter implements Converter<RecipeCommand, Recipe
         model.setDirections(source.getDirections());
         model.setUrl(source.getUrl());
         model.setServings(source.getServings());
-        model.setDifficulty(source.getDifficulty());
+        if(source.getDifficulty()!=null)
+            model.setDifficulty(Difficulty.valueOf(source.getDifficulty()));
         model.setSource(source.getSource());
 
         Set<CategoryCommand> categories = source.getCategories();

@@ -43,7 +43,8 @@ public class RecipeToCommandConverter implements Converter<Recipe, RecipeCommand
         command.setDirections(source.getDirections());
         command.setUrl(source.getUrl());
         command.setServings(source.getServings());
-        command.setDifficulty(source.getDifficulty());
+        if(source.getDifficulty()!=null)
+            command.setDifficulty(source.getDifficulty().toString());
         command.setSource(source.getSource());
         Set<Category> categories = source.getCategories();
         if (categories != null)

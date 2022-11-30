@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -53,6 +54,18 @@ public class RecipeServiceImpl implements RecipeService{
     @Transactional
     public RecipeCommand findCommandById(Long id){
         return recipeToCommandConverter.convert(findById(id));
+    }
+
+    @Override
+    @Transactional
+    public Optional<RecipeCommand> deleteById(Long id) {
+        Optional<Recipe> recipe = recipeRepository.findById(id);
+        if(recipe.isPresent()) {
+            recipeRepository.delete(recipe.get());
+            return Optional.of(recipeToCommandConverter.convert(recipe.get()));
+        }else{
+            return Optional.empty();
+        }
     }
 
 }

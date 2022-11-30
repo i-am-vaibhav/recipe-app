@@ -24,7 +24,7 @@ public class RecipeCommand {
     private String source;
     private String url;
     private String directions;
-    private Difficulty difficulty;
+    private String difficulty;
 
     private byte[] image;
 

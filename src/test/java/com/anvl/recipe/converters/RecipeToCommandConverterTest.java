@@ -54,6 +54,6 @@ class RecipeToCommandConverterTest {
         assertNotNull(convert);
         assertEquals(model.getServings(),model.getServings());
         assertEquals(model.getId(),convert.getId());
-        assertEquals(model.getDifficulty(),convert.getDifficulty());
+        assertEquals(model.getDifficulty(),Difficulty.valueOf(convert.getDifficulty()));
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -67,5 +68,18 @@ class RecipeServiceImplT {
         assertEquals(recipe.getCategories().size(),command.getCategories().size());
         assertEquals(recipe.getIngredients().size(),command.getIngredients().size());
 
+    }
+
+    @Test
+    @Transactional
+    void delete() {
+        List<Recipe> recipes = recipeRepository.findAll();
+        Recipe recipe = recipes.get(0);
+
+        Optional<RecipeCommand> savedRecipe = recipeService.deleteById(recipe.getId());
+
+        assertNotNull(savedRecipe.get());
+        assertEquals(recipe.getCategories().size(),savedRecipe.get().getCategories().size());
+        assertEquals(recipe.getIngredients().size(),savedRecipe.get().getIngredients().size());
     }
 }

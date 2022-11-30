@@ -53,7 +53,7 @@ class CommandToRecipeConverterTest {
         command.setDescription("DES");
         command.setSource("SRC");
         command.setServings(2);
-        command.setDifficulty(Difficulty.MODERATE);
+        command.setDifficulty("MODERATE");
         command.setDirections("DIR");
         command.setNote(new NotesCommand());
         command.setIngredients(new HashSet<>());
@@ -62,6 +62,6 @@ class CommandToRecipeConverterTest {
         assertNotNull(convert);
         assertEquals(command.getServings(),command.getServings());
         assertEquals(command.getId(),convert.getId());
-        assertEquals(command.getDifficulty(),convert.getDifficulty());
+        assertEquals(command.getDifficulty(),convert.getDifficulty().name());
     }
 }

@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -114,5 +115,14 @@ class RecipeControllerTest {
         RecipeCommand recipeCaptured = setArgumentCaptor.getValue();
         assertNotNull(recipeCaptured);
         assertEquals(1l,recipeCaptured.getId());
+    }
+
+    @Test
+    void deleteApiJunit() throws Exception {
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipes/"+1+"/delete"))
+                .andExpect(MockMvcResultMatchers.status().is(302))
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/"));
     }
 }
