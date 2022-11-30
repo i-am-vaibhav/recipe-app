@@ -1,4 +1,4 @@
-# recipe-app
+# Recipe-App
 
 A recipe application where we can see the recipes of varies delicious dishes.
 
