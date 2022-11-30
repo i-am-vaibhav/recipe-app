@@ -77,7 +77,10 @@
             <br>
             <br>
             <div class="card text-bg-primary">
-                <div class="card-header bg-primary"><h2>Ingredients !</h2></div>
+                <div class="card-header bg-primary">
+                    <h2>Ingredients !</h2>
+                    <a class="btn btn-info" th:href="@{'/recipes/'+${recipe.id}+'/ingredients'}">View</a>
+                </div>
                 <div class="card-body text-bg-light">
                     <div class="table-responsive" th:if="${recipe!=null}">
                         <table class="table table-hover">
