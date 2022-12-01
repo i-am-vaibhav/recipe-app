@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ingredient Details</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}">
+
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+
+</head>
+<body>
+<div class="container-fluid mt-5">
+    <div class="row">
+        <div class="col-8 offset-2">
+            <div class="card text-bg-primary">
+                <div class="card-header bg-primary"><h1>Ingredient Details !</h1></div>
+                <div class="card-body text-bg-light">
+                    <div class="table-responsive" th:if="${ingredient!=null}">
+                        <table class="table table-hover">
+                            <tr>
+                                <td>Id :</td>
+
+                                <td>
+                                    <span th:text="${ingredient.id}"></span>
+                                </td>
+                                <td>Description :</td>
+
+                                <td>
+                                    <span th:text="${ingredient.description}"></span>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>Amount :</td>
+
+                                <td>
+                                    <span th:text="${ingredient.amount}+' '+${ingredient.unitOfMeasure.uom}"></span>
+                                </td>
+
+                            </tr>
+                        </table>
+                        <a th:href="@{'/recipes/'+${ingredient.recipeId}+'/ingredients'}" class="btn btn-danger">Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

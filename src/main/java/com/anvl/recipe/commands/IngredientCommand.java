@@ -1,5 +1,6 @@
 package com.anvl.recipe.commands;
 
+import com.anvl.recipe.model.Recipe;
 import com.anvl.recipe.model.UnitOfMeasure;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,5 +18,6 @@ public class IngredientCommand {
     private String description;
     private BigDecimal amount;
     private UnitOfMeasureCommand unitOfMeasure;
+    private Long recipeId;
 
 }
