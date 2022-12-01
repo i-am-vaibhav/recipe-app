@@ -123,6 +123,6 @@ class RecipeControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/recipes/"+1+"/delete"))
                 .andExpect(MockMvcResultMatchers.status().is(302))
-                .andExpect(MockMvcResultMatchers.view().name("redirect:/"));
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/"));
     }
 }
