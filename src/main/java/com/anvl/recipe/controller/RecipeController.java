@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -46,12 +47,15 @@ public class RecipeController {
     }
 
     @GetMapping("/{id}/update")
-    public String updatePage(Model model,@PathVariable Long id){
+    public String updatePage(Model model,@PathVariable Long id) {
         log.debug("update recipe page");
         RecipeCommand command = recipeService.findCommandById(id);
-        model.addAttribute("recipe",command);
-        model.addAttribute("categories",categoryRepository.findAll().stream().collect(Collectors.toList()));
-        model.addAttribute("categoriesSelected",command.getCategories().stream().map(a->a.getId()).collect(Collectors.toList()));
+        if (command != null && command.getCategories() != null){
+            model.addAttribute("recipe", command);
+            model.addAttribute("categories", categoryRepository.findAll().stream().collect(Collectors.toList()));
+            model.addAttribute("categoriesSelected", command.getCategories().stream().map(a -> a.getId()).collect(Collectors.toList()));
+        } else
+            model.addAttribute("categoriesSelected", Arrays.asList(0));
         return "recipe/form";
     }
 
