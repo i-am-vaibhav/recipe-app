@@ -4,6 +4,7 @@ import com.anvl.recipe.commands.RecipeCommand;
 import com.anvl.recipe.converters.CommandToRecipeConverter;
 import com.anvl.recipe.converters.RecipeToCommandConverter;
 import com.anvl.recipe.model.Recipe;
+import com.anvl.recipe.repository.CategoryRepository;
 import com.anvl.recipe.repository.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,10 +31,14 @@ class RecipeServiceImplTest {
     @Mock
     private RecipeToCommandConverter recipeToCommandConverter;
 
+    @Mock
+    private CategoryRepository categoryRepository;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        recipeService = new RecipeServiceImpl(recipeRepository, commandToRecipeConverter, recipeToCommandConverter);
+
+        recipeService = new RecipeServiceImpl(recipeRepository, categoryRepository, commandToRecipeConverter, recipeToCommandConverter);
     }
 
     @Test

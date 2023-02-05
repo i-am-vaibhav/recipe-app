@@ -21,8 +21,9 @@
 
                 <div class="card text-bg-primary">
                     <div class="card-header bg-primary">
-                        <h1>Edit Recipe Information</h1>
-                    </div>
+                        <h1>Recipe Information !</h1>
+                        <a th:if="${recipe.id!=null}" type="button" th:href="@{'/recipes/'+ ${recipe.id} + '/images'}" class="btn btn-warning">Change Image</a>
+                        </div>
                     <div class="card-body text-bg-light">
                         <div class="row">
                             <div class="col-md-3 form-group">
@@ -34,19 +35,18 @@
                             <div class="col-md-3 form-group">
                                 <label>Categories:</label>
                             </div>
-                            <div class="col-md-9 form-group">
-                                <div class="radio">
-                                    <label>
-                                        <input type="checkbox" value=""/>
-                                        Cat 1
+                            <div class="col-md-3 form-group">
+                                <ul style="list-style:none">
+                                <li th:each="category,i : ${categories}">
+                                    <label >
+                                        <input type="checkbox" th:name="${'categories[' + i.index +'].id'}" th:value="${category.id}" th:checked="${#lists.contains(categoriesSelected,category.id)}" />
+                                        <span th:text="${category.description}"> </span>
                                     </label>
-                                </div>
-                                <div class="radio">
-                                    <label>
-                                        <input type="checkbox" value=""/>
-                                        Cat 2
-                                    </label>
-                                </div>
+                                </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-3 form-group" th:if="${recipe.id!=null}">
+                                <img alt="Image not found" width="200px" height="200px" th:src="@{'/recipes/'+${recipe.id}+'/readImage'}">
                             </div>
                         </div>
                         <div class="row">
@@ -91,7 +91,7 @@
                                 <h1 class="panel-title">Ingredients</h1>
                             </div>
                             <div class="col-md-1">
-                                <a class="btn btn-danger" href="#" role="button">Edit</a>
+                                <a class="btn btn-danger" th:href="@{'/recipes/'+ ${recipe.id} + '/ingredients'}" role="button">Edit</a>
                             </div>
                         </div>
                     </div>

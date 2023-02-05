@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 
@@ -26,9 +27,9 @@ public class RecipeCommand {
     private String directions;
     private String difficulty;
 
-    private byte[] image;
+    private Byte[] image;
 
-    private Set<CategoryCommand> categories;
+    private List<CategoryCommand> categories;
 
     private Set<IngredientCommand> ingredients;
 

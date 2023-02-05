@@ -21,7 +21,7 @@ public class Recipe {
     @Enumerated(value = EnumType.STRING)
     private Difficulty difficulty;
     @Lob
-    private byte[] image;
+    private Byte[] image;
 
     public Set<Category> getCategories() {
         return categories;
@@ -115,11 +115,11 @@ public class Recipe {
         this.directions = directions;
     }
 
-    public byte[] getImage() {
+    public Byte[] getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(Byte[] image) {
         this.image = image;
     }
 

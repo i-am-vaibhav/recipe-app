@@ -48,7 +48,7 @@ public class RecipeToCommandConverter implements Converter<Recipe, RecipeCommand
         command.setSource(source.getSource());
         Set<Category> categories = source.getCategories();
         if (categories != null)
-            command.setCategories(categories.stream().map(categoryToCommandConverter::convert).collect(Collectors.toSet()));
+            command.setCategories(categories.stream().map(categoryToCommandConverter::convert).collect(Collectors.toList()));
 
         Set<Ingredient> ingredients = source.getIngredients();
         if (ingredients != null)

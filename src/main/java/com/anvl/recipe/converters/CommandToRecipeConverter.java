@@ -11,6 +11,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -41,7 +42,8 @@ public class CommandToRecipeConverter implements Converter<RecipeCommand, Recipe
         model.setDescription(source.getDescription());
         model.setCookTime(source.getCookTime());
         model.setPrepTime(source.getPrepTime());
-        model.setImage(source.getImage());
+        if(source.getImage()!=null)
+            model.setImage(source.getImage());
         model.setDirections(source.getDirections());
         model.setUrl(source.getUrl());
         model.setServings(source.getServings());
@@ -49,7 +51,7 @@ public class CommandToRecipeConverter implements Converter<RecipeCommand, Recipe
             model.setDifficulty(Difficulty.valueOf(source.getDifficulty()));
         model.setSource(source.getSource());
 
-        Set<CategoryCommand> categories = source.getCategories();
+        List<CategoryCommand> categories = source.getCategories();
         if(categories!=null) {
             model.setCategories(categories.stream().map(commandToCategoryConverter::convert).collect(Collectors.toSet()));
         }

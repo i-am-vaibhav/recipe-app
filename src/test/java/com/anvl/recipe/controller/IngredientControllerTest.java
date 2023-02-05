@@ -1,9 +1,9 @@
 package com.anvl.recipe.controller;
 
 import com.anvl.recipe.commands.RecipeCommand;
-import com.anvl.recipe.model.Recipe;
 import com.anvl.recipe.service.IngredientService;
 import com.anvl.recipe.service.RecipeServiceImpl;
+import com.anvl.recipe.service.UnitOfMeasureService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,21 +32,24 @@ public class IngredientControllerTest {
     @Mock
     private Model model;
 
+    @Mock
+    private UnitOfMeasureService unitOfMeasureService;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        ingredientController = new IngredientController(recipeService, ingredientService);
+        ingredientController = new IngredientController(recipeService, ingredientService, unitOfMeasureService);
     }
 
     @Test
-    public void showIngredientsByRecipeIdTest() throws Exception {
+    public void showIngredientsByRecipeIdTest() {
         RecipeCommand recipe =new RecipeCommand();
-        recipe.setId(1l);
-        Mockito.when(recipeService.findCommandById(1l)).thenReturn(recipe);
+        recipe.setId(1L);
+        Mockito.when(recipeService.findCommandById(1L)).thenReturn(recipe);
         ArgumentCaptor<RecipeCommand> recipeArgumentCaptor = ArgumentCaptor.forClass(RecipeCommand.class);
 
-        String url = ingredientController.showIngredientByRecipeId(1l,model);
+        String url = ingredientController.showIngredientsByRecipeId(1L,model);
         Assertions.assertEquals(url,"recipe/ingredient/list");
         Mockito.verify(recipeService,Mockito.times(1)).findCommandById(any());
         Mockito.verify(model,Mockito.times(1)).addAttribute(Mockito.eq("recipe"),recipeArgumentCaptor.capture());
