@@ -2,6 +2,7 @@ package com.anvl.recipe.controller;
 
 import com.anvl.recipe.commands.IngredientCommand;
 import com.anvl.recipe.commands.RecipeCommand;
+import com.anvl.recipe.exceptions.NotFoundException;
 import com.anvl.recipe.service.IngredientService;
 import com.anvl.recipe.service.RecipeService;
 import com.anvl.recipe.service.UnitOfMeasureService;
@@ -30,7 +31,7 @@ public class IngredientController {
     }
 
     @GetMapping("/recipes/{id}/ingredients")
-    public String showIngredientsByRecipeId(@PathVariable Long id, Model model){
+    public String showIngredientsByRecipeId(@PathVariable Long id, Model model) throws NotFoundException {
         log.debug("/recipes/{}/ingredients called",id);
         RecipeCommand commandById = recipeService.findCommandById(id);
         model.addAttribute("recipe",commandById);

@@ -3,6 +3,7 @@ package com.anvl.recipe.service;
 import com.anvl.recipe.commands.RecipeCommand;
 import com.anvl.recipe.converters.CommandToRecipeConverter;
 import com.anvl.recipe.converters.RecipeToCommandConverter;
+import com.anvl.recipe.exceptions.NotFoundException;
 import com.anvl.recipe.model.Recipe;
 import com.anvl.recipe.repository.CategoryRepository;
 import com.anvl.recipe.repository.RecipeRepository;
@@ -57,7 +58,7 @@ class RecipeServiceImplTest {
     }
 
     @Test
-    void getRecipeByIdTest() {
+    void getRecipeByIdTest() throws NotFoundException {
         Recipe recipe = new Recipe();
         recipe.setId(1l);
         Mockito.when(recipeRepository.findById(any())).thenReturn(Optional.of(recipe));
@@ -69,7 +70,7 @@ class RecipeServiceImplTest {
     }
 
     @Test
-    void getRecipeCommandByIdTest() {
+    void getRecipeCommandByIdTest() throws NotFoundException {
         Recipe recipe = new Recipe();
         recipe.setId(1l);
         Mockito.when(recipeRepository.findById(1l)).thenReturn(Optional.of(recipe));

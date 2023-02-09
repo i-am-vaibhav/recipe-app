@@ -1,6 +1,7 @@
 package com.anvl.recipe.service;
 
 import com.anvl.recipe.commands.RecipeCommand;
+import com.anvl.recipe.exceptions.NotFoundException;
 import com.anvl.recipe.model.Recipe;
 
 import java.util.Optional;
@@ -10,11 +11,11 @@ public interface RecipeService {
 
     Set<Recipe> getAllRecipes();
 
-    Recipe findById(Long id);
+    Recipe findById(Long id) throws NotFoundException;
 
-    RecipeCommand save(RecipeCommand recipe);
+    RecipeCommand save(RecipeCommand recipe) throws NotFoundException;
 
-    RecipeCommand findCommandById(Long id);
+    RecipeCommand findCommandById(Long id) throws NotFoundException;
 
     Optional<RecipeCommand> deleteById(Long id);
 }

@@ -1,6 +1,7 @@
 package com.anvl.recipe.controller;
 
 import com.anvl.recipe.commands.RecipeCommand;
+import com.anvl.recipe.exceptions.NotFoundException;
 import com.anvl.recipe.service.ImageService;
 import com.anvl.recipe.service.RecipeService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,7 @@ public class ImageController {
     }
 
     @GetMapping("/recipes/{id}/images")
-    public String imageUpload(@PathVariable Long id, Model model){
+    public String imageUpload(@PathVariable Long id, Model model) throws NotFoundException {
         RecipeCommand command = recipeService.findCommandById(id);
         model.addAttribute("recipe",command);
         return "recipe/recipeImgUpload";
@@ -45,7 +46,7 @@ public class ImageController {
     }
 
     @GetMapping("/recipes/{id}/readImage")
-    public void readImage(@PathVariable Long id, HttpServletResponse response){
+    public void readImage(@PathVariable Long id, HttpServletResponse response) throws NotFoundException {
         RecipeCommand command = recipeService.findCommandById(id);
 
         Byte[] bytes = command.getImage();

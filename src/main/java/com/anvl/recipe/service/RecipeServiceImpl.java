@@ -3,6 +3,7 @@ package com.anvl.recipe.service;
 import com.anvl.recipe.commands.RecipeCommand;
 import com.anvl.recipe.converters.CommandToRecipeConverter;
 import com.anvl.recipe.converters.RecipeToCommandConverter;
+import com.anvl.recipe.exceptions.NotFoundException;
 import com.anvl.recipe.model.Category;
 import com.anvl.recipe.model.Recipe;
 import com.anvl.recipe.repository.CategoryRepository;
@@ -42,15 +43,15 @@ public class RecipeServiceImpl implements RecipeService{
     }
 
     @Override
-    public Recipe findById(Long id) {
+    public Recipe findById(Long id) throws NotFoundException {
         if(id==null)
             return null;
-        return recipeRepository.findById(id).orElse(null);
+        return recipeRepository.findById(id).orElseThrow(()->new NotFoundException("Recipe Not Found ,for id : "+id));
     }
 
     @Override
     @Transactional
-    public RecipeCommand save(RecipeCommand recipe) {
+    public RecipeCommand save(RecipeCommand recipe) throws NotFoundException {
         log.debug("save recipe");
         Recipe convert = commandToRecipeConverter.convert(recipe);
         Set<Category> categories = new HashSet<>();
@@ -72,9 +73,9 @@ public class RecipeServiceImpl implements RecipeService{
 
     @Override
     @Transactional
-    public RecipeCommand findCommandById(Long id){
-        return recipeToCommandConverter.convert(findById(id));
-    }
+    public RecipeCommand findCommandById(Long id) throws NotFoundException {
+            return recipeToCommandConverter.convert(findById(id));
+        }
 
     @Override
     @Transactional

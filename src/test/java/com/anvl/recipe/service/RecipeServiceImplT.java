@@ -3,6 +3,7 @@ package com.anvl.recipe.service;
 import com.anvl.recipe.commands.RecipeCommand;
 import com.anvl.recipe.converters.CommandToRecipeConverter;
 import com.anvl.recipe.converters.RecipeToCommandConverter;
+import com.anvl.recipe.exceptions.NotFoundException;
 import com.anvl.recipe.model.Recipe;
 import com.anvl.recipe.repository.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +38,7 @@ class RecipeServiceImplT {
 
     @Test
     @Transactional
-    void save() {
+    void save() throws NotFoundException {
         List<Recipe> recipes = recipeRepository.findAll();
         Recipe recipe = recipes.get(0);
         RecipeCommand command = recipeToCommandConverter.convert(recipe);
@@ -55,7 +56,7 @@ class RecipeServiceImplT {
 
     @Test
     @Transactional
-    void update() {
+    void update() throws NotFoundException {
         List<Recipe> recipes = recipeRepository.findAll();
         Recipe recipe = recipes.get(0);
         RecipeCommand command = recipeToCommandConverter.convert(recipe);

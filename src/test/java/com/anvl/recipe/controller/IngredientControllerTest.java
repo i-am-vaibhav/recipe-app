@@ -1,6 +1,7 @@
 package com.anvl.recipe.controller;
 
 import com.anvl.recipe.commands.RecipeCommand;
+import com.anvl.recipe.exceptions.NotFoundException;
 import com.anvl.recipe.service.IngredientService;
 import com.anvl.recipe.service.RecipeServiceImpl;
 import com.anvl.recipe.service.UnitOfMeasureService;
@@ -43,7 +44,7 @@ public class IngredientControllerTest {
     }
 
     @Test
-    public void showIngredientsByRecipeIdTest() {
+    public void showIngredientsByRecipeIdTest() throws NotFoundException {
         RecipeCommand recipe =new RecipeCommand();
         recipe.setId(1L);
         Mockito.when(recipeService.findCommandById(1L)).thenReturn(recipe);

@@ -2,10 +2,12 @@ package com.anvl.recipe.controller;
 
 import antlr.ASTNULLType;
 import com.anvl.recipe.commands.RecipeCommand;
+import com.anvl.recipe.exceptions.NotFoundException;
 import com.anvl.recipe.model.Category;
 import com.anvl.recipe.model.Recipe;
 import com.anvl.recipe.repository.CategoryRepository;
 import com.anvl.recipe.service.RecipeService;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,6 +29,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 
 @ExtendWith(MockitoExtension.class)
 class RecipeControllerTest {
@@ -43,14 +46,15 @@ class RecipeControllerTest {
     @Mock
     private Model model;
 
+    MockMvc mockMvc = null;
     @BeforeEach
     void setUp() {
 
+        mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
     }
 
     @Test
     void createPage() throws Exception {
-            MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
 
             mockMvc.perform(MockMvcRequestBuilders.get("/recipes/"))
                     .andExpect(MockMvcResultMatchers.status().is(200))
@@ -59,7 +63,6 @@ class RecipeControllerTest {
 
     @Test
     void updatePage() throws Exception {
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
 
         mockMvc.perform(MockMvcRequestBuilders.get("/recipes/"+11+"/update/"))
                 .andExpect(MockMvcResultMatchers.status().is(200))
@@ -68,11 +71,26 @@ class RecipeControllerTest {
 
     @Test
     void showRecipe() throws Exception {
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
 
         mockMvc.perform(MockMvcRequestBuilders.get("/recipes/"+1+"/show/"))
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.view().name("recipe/show"));
+    }
+    @Test
+    void showRecipeNotFound() throws Exception {
+        Mockito.when(recipeService.findCommandById(any())).thenThrow(NotFoundException.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipes/"+4+"/show/"))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.forwardedUrl("404error"));
+    }
+
+    @Test
+    void showRecipeNumberFormatException() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipes/test/show/"))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.forwardedUrl("400error"));
     }
 
     @Test
@@ -129,7 +147,6 @@ class RecipeControllerTest {
 
     @Test
     void deleteApiJunit() throws Exception {
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
 
         mockMvc.perform(MockMvcRequestBuilders.get("/recipes/"+1+"/delete"))
                 .andExpect(MockMvcResultMatchers.status().is(302))
